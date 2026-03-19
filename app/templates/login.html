@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Owner Login — PosterCraft{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+
+            <!-- ===== LOGIN CARD ===== -->
+            <div class="card shadow-lg border-0 mt-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <div class="login-icon mb-3">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <h2 class="fw-bold">Owner Login</h2>
+                        <p class="text-muted small">Apna username aur password daalo</p>
+                    </div>
+
+                    <!-- Alert Box -->
+                    <div id="alertBox" class="alert d-none mb-3" role="alert"></div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input type="text" class="form-control" id="username"
+                                       placeholder="admin" required/>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password"
+                                       placeholder="••••••••" required/>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit btn-lg" id="loginBtn">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                Login Karo
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Hint for development -->
+                    <div class="mt-3 p-3 bg-light rounded text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Default: <strong>admin</strong> / <strong>admin123</strong>
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="/" class="text-decoration-none text-muted">
+                    <i class="bi bi-arrow-left me-1"></i>Wapas Home pe Jao
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// ==============================
+// Login Form Submit
+// ==============================
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();  // Page reload rokna
+
+    const loginBtn = document.getElementById('loginBtn');
+    const alertBox = document.getElementById('alertBox');
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Loading state
+    loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Checking...';
+    loginBtn.disabled = true;
+
+    try {
+        // Login API call
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Login successful - token save karo
+            localStorage.setItem('access_token', data.access_token);
+
+            // Success message
+            showAlert('success', '✅ ' + data.message + ' Redirecting...');
+
+            // Dashboard pe le jao
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 1000);
+
+        } else {
+            // Login failed
+            showAlert('danger', '❌ ' + data.detail);
+            loginBtn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login Karo';
+            loginBtn.disabled = false;
+        }
+
+    } catch (error) {
+        showAlert('danger', '❌ Server se connect nahi ho pa raha. Baad mein try karo.');
+        loginBtn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login Karo';
+        loginBtn.disabled = false;
+    }
+});
+
+// Alert show karne ka function
+function showAlert(type, message) {
+    const alertBox = document.getElementById('alertBox');
+    alertBox.className = `alert alert-${type}`;
+    alertBox.innerHTML = message;
+    alertBox.classList.remove('d-none');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+# ==============================
+# .gitignore — Poster Design FastAPI
+# Yeh files Git mein upload NAHI hongi
+# ==============================
+
+# ===== Environment Variables (SECRET!) =====
+# .env file kabhi bhi GitHub pe mat daalo!
+.env
+.env.*
+!.env.example
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# ===== Virtual Environment =====
+venv/
+env/
+.venv/
+.env/
+
+# ===== Database (local data) =====
+*.db
+*.sqlite
+*.sqlite3
+
+# ===== Uploaded Images =====
+app/static/images/*
+!app/static/images/.gitkeep
+
+# ===== Temp Download Files =====
+/tmp/
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ===== OS Files =====
+.DS_Store         # Mac
+Thumbs.db         # Windows
+desktop.ini
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Build / Dist =====
+dist/
+build/
+*.egg-info/
