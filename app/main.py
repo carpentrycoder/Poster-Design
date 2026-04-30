@@ -9,15 +9,26 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("Starting Poster Design API...")
 
 from app.database import engine, Base
 from app.routers import order_routes, auth_routes
+
+logger.info("Database engine created successfully")
 
 # ==============================
 # Database Tables Banao
 # App start hote hi tables create honge (agar nahi hain toh)
 # ==============================
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables created/verified successfully")
+except Exception as e:
+    logger.error(f"Error creating database tables: {e}")
+    raise
 
 # ==============================
 # FastAPI App Instance

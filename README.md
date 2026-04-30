@@ -71,6 +71,11 @@ cd poster_design_fastapi
 uvicorn app.main:app --reload
 ```
 
+**For Production (Render):**
+```bash
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+```
+
 ### Step 5: Browser mein kholo
 
 | Page | URL |
