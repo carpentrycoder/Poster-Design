@@ -92,6 +92,7 @@
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>Delivery Address</th>
                                 <th>Poster Reason</th>
                                 <th>Font</th>
                                 <th>Size</th>
@@ -187,6 +188,7 @@ function renderTable(orders) {
                 <td><strong>${escapeHtml(order.customer_name)}</strong></td>
                 <td><i class="bi bi-phone me-1 text-muted"></i>${escapeHtml(order.phone)}</td>
                 <td><small>${escapeHtml(order.email)}</small></td>
+                <td><small title="${escapeHtml(order.delivery_address)}">${escapeHtml(order.delivery_address)}</small></td>
                 <td>
                     <span class="text-truncate d-inline-block" style="max-width:150px"
                           title="${escapeHtml(order.poster_reason)}">

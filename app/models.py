@@ -24,7 +24,8 @@ class Order(Base):
     customer_name = Column(String(100), nullable=False)   # Naam zaroori hai
     phone = Column(String(20), nullable=False)             # Phone zaroori hai
     email = Column(String(100), nullable=False)            # Email zaroori hai
-
+    delivery_address = Column(String(500), nullable=False)    # Delivery address zaroori hai
+    
     # Poster ki details
     poster_reason = Column(String(500), nullable=False)   # Kisliye chahiye poster
     font_style = Column(String(50), nullable=False)       # Font choice

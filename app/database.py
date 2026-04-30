@@ -13,11 +13,12 @@ from dotenv import load_dotenv
 # .env file se variables load karo
 load_dotenv()
 
-# Database URL (SQLite file-based database) - commented out
-# DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./poster_orders.db")
+# Database URL - must be set in environment variables for security
+# Never include hardcoded credentials in source code!
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Neon PostgreSQL URL - using environment variable for security
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_Mc9GbDiwJuX0@ep-winter-heart-ad1jblng-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set. Please configure it in .env or your deployment platform.")
 
 # Engine banao - yeh database se actual connection hai
 engine = create_engine(

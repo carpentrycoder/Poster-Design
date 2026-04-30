@@ -21,6 +21,7 @@ class OrderCreate(BaseModel):
     customer_name: str        # Customer ka naam
     phone: str                # Phone number
     email: str                # Email address
+    delivery_address: str     # Delivery address
     poster_reason: str        # Poster kisliye chahiye
     font_style: str           # Font style choice
     poster_size: str          # Poster size choice
@@ -34,6 +35,7 @@ class OrderResponse(BaseModel):
     customer_name: str
     phone: str
     email: str
+    delivery_address: str
     poster_reason: str
     font_style: str
     poster_size: str

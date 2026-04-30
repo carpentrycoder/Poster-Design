@@ -72,6 +72,7 @@ async def create_order(
     customer_name: str = Form(...),
     phone: str = Form(...),
     email: str = Form(...),
+    delivery_address: str = Form(...),
     poster_reason: str = Form(...),
     font_style: str = Form(...),
     poster_size: str = Form(...),
@@ -105,6 +106,7 @@ async def create_order(
         customer_name=customer_name,
         phone=phone,
         email=email,
+        delivery_address=delivery_address,
         poster_reason=poster_reason,
         font_style=font_style,
         poster_size=poster_size,
@@ -152,6 +154,7 @@ def download_orders(format: str = "csv", db: Session = Depends(get_db)):
             "customer_name": o.customer_name,
             "phone": o.phone,
             "email": o.email,
+            "delivery_address": o.delivery_address,
             "poster_reason": o.poster_reason,
             "font_style": o.font_style,
             "poster_size": o.poster_size,
@@ -169,9 +172,9 @@ def download_orders(format: str = "csv", db: Session = Depends(get_db)):
         filepath = "/tmp/orders.csv"
         with open(filepath, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["ID", "Name", "Phone", "Email", "Reason", "Font", "Size", "Price", "Image URL", "Date"])
+            writer.writerow(["ID", "Name", "Phone", "Email", "Delivery Address", "Reason", "Font", "Size", "Price", "Image URL", "Date"])
             for o in orders:
-                writer.writerow([o.id, o.customer_name, o.phone, o.email,
+                writer.writerow([o.id, o.customer_name, o.phone, o.email, o.delivery_address,
                     o.poster_reason, o.font_style, o.poster_size,
                     o.total_price, o.image_path or "No image", o.created_at])
         return FileResponse(filepath, filename="poster_orders.csv", media_type="text/csv")

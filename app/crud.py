@@ -65,6 +65,7 @@ def create_order(db: Session, order: schemas.OrderCreate, image_path: str = None
         customer_name=order.customer_name,
         phone=order.phone,
         email=order.email,
+        delivery_address=order.delivery_address,
         poster_reason=order.poster_reason,
         font_style=order.font_style,
         poster_size=order.poster_size,

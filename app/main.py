@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from app.database import engine, Base
 from app.routers import order_routes, auth_routes
@@ -30,10 +31,12 @@ app = FastAPI(
 # ==============================
 # CORS Middleware
 # Frontend aur Backend different ports pe ho toh bhi kaam kare
+# Production mein specific domain dena
 # ==============================
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],       # Sab origins allowed (production mein specific domain dena)
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],       # GET, POST, PUT, DELETE sab allowed
     allow_headers=["*"],
