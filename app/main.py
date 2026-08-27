@@ -112,6 +112,43 @@ def dashboard_page(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
 
+
+# ==============================
+# API Health Check
+# ==============================
+@app.get("/api")
+def api_root():
+    return {
+        "message": "Poster Design API chal rahi hai! 🎨",
+        "docs": "/docs",
+        "status": "running"
+    }
+
+
+# ==============================
+# Health Check Endpoint
+# ==============================
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy",
+        "service": "poster-design-api"
+    }
+
+
+# ==============================
+# Prometheus Metrics Endpoint
+# ==============================
+@app.get("/metrics")
+def metrics():
+    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+    from fastapi.responses import Response
+
+    return Response(
+        content=generate_latest(),
+        media_type=CONTENT_TYPE_LATEST
+    )
+
 # ==============================
 # API Health Check
 # ==============================
