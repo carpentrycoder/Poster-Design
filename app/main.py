@@ -3,6 +3,9 @@
 # FastAPI Application ka Entry Point
 # ==============================
 
+from fastapi.responses import Response
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+
 import os
 import logging
 from fastapi import FastAPI, Request
